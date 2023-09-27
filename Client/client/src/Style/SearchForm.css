@@ -1,0 +1,93 @@
+.component-searchform {
+    border-radius: 35px;
+    box-shadow: 5px 10px 15px rgba(0,0,0,0.3);
+    padding: 4px 4px;
+    background-color: #BB5358;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-form-controlscontainer
+{
+    display: flex;
+}
+
+.searchform-searchbutton
+{
+    align-self: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 32px !important;
+    margin-left: auto;
+    background-image: url("../../public/search-icon.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.searchform-searchtextfield > .component-input
+{
+    border-radius: 32px 0 0 32px !important;
+    font-size: 17px;
+    border-right: 2px dotted #bb53585c !important;
+}
+
+.searchform-frombutton > .component-input, .searchform-tobutton > .component-input
+{
+    border-radius: 0 !important;
+    color: gray !important;
+    justify-content: flex-start !important;
+    border-right: 2px dotted #bb53585c !important;
+}
+
+.searchform-frombutton, .searchform-tobutton
+{
+    height: 100%;
+}
+
+.searchform-guestsbutton
+{
+    position: relative;
+    border-radius: 0 32px 32px 0 !important;
+    margin-right: 15px;
+    background-color: white;
+    border: solid;
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-color: white;
+    padding: 5px;
+}
+
+.searchform-guests-label
+{
+    position: absolute;
+    top:0;
+    margin: 0;
+    font-size: 9px;
+    color:gray;
+}
+
+.searchform-guests-control-button
+{
+    margin: 0 10px;
+    border-radius: 100px !important;
+    height: 30px;
+    width: 30px;
+    align-self: center;
+    color: black !important;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+    border: none !important;
+    font-size: 22px !important;
+}
+
+.searchform-guests-counttext
+{
+    text-align: center;
+    align-self: center;
+    user-select: none;
+}
+

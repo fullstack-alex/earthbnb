@@ -1,0 +1,161 @@
+.component-signup-screen
+{
+    display: flex;
+    position: absolute;
+    margin:30px auto 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.component-signup-window
+{
+    background-color: #BB5358;
+    border-radius: 24px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+    position: relative;
+    padding: 40px;
+    align-self: center;
+}
+
+.component-signup-xbutton
+{
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    top: 5px;
+    font-size: 25px;
+    color: darkgray;
+    font-weight: 500;
+    margin: 0;
+    user-select: none;
+    width: 50px;
+    text-align: center;
+    align-items: center;
+}
+
+.component-signup-form
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.component-signup-image-container, .component-signup-fullname-container, .component-signup-email-container, .component-signup-role-container, .component-signup-password-container
+{
+    margin: 2.5px 0;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.component-signup-image-container
+{
+    margin-bottom: 25px;
+}
+
+.signup-image-preview
+{
+    margin-right: 15px;;
+    background-size: contain;
+    font-size: 14px;
+    border-radius: 4px;
+    max-height: 200px;
+}
+
+.component-signup-field-image
+{
+    margin: 0 !important;
+    margin-left: auto !important;
+    width: auto !important;
+    height: auto !important;
+    user-select: none !important;
+    margin: 5px 0;
+}
+
+.component-signup-field-image::file-selector-button
+{
+    cursor:pointer;
+    border-radius: 4px;
+    border:none;
+    background-color: white;
+    font-size: 15px;
+}
+
+.component-signup-field-image::file-selector-button:hover, .component-signup-field-image::file-selector-button:active
+{
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.component-signup-field-name
+{
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+.component-signup-field-surname
+{
+    flex-grow: 1;
+}
+
+.component-signup-fieldwithlabel
+{
+    flex-direction: column;
+    font-size: 15px;
+}
+.component-signup-fieldwithlabel > label
+{
+    margin-bottom: 5px;
+}
+
+.component-signup-field-username
+{
+    margin: 5px 0;
+}
+
+.component-signup-field-mobile
+{
+    margin: 5px 0;
+}
+
+.component-signup-field-role
+{
+    font-size: 18px;
+}
+
+.component-signup-field-email
+{
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+.component-signup-field-emailrepeat
+{
+    flex-grow: 1;
+}
+
+.component-signup-field-password
+{
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+.component-signup-field-passwordrepeat
+{
+    flex-grow: 1;
+}
+
+.component-signup-submit-button
+{
+    width: 100px;
+    height: 40px;
+    margin-left: auto;
+    margin-top: 30px;
+}
+
+.field-notfilled
+{
+    background-color: rgba(238, 100, 100, 0.9);
+}
+
+.field-notfilled:active, .field-notfilled:focus
+{
+    background-color:rgba(50, 50, 50, 0.2) !important;
+}

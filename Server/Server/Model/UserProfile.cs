@@ -1,6 +1,6 @@
 ﻿namespace Server.Model;
 
-public class UserProfile
+public class UserProfile : UniqueClass
 {
     public string username { get; set; }
     public string password { get; set; }

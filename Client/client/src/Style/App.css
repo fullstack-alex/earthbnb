@@ -1,0 +1,18 @@
+.component-app {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    height: 100%;
+    position: relative;
+}
+
+.component-app-navmenu, .component-app-welcomescreen
+{
+    display: flex;
+}
+
+.component-app-signupscreen 
+{
+    display: block;
+    width: 100%;
+}

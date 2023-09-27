@@ -1,0 +1,17 @@
+.component-logo
+{
+    height: 50px;
+    width: 200px;
+    color: white;
+    font-size: 40px;
+    align-self: center;
+    margin-left: 16px;
+    display: flex;
+    justify-content: center;
+    user-select: none;
+}
+
+.component-logo-text
+{
+    align-self: center;
+}

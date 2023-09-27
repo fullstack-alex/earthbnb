@@ -1,0 +1,27 @@
+.component-toast
+{
+    position: absolute;
+    height: 40px;
+    border-radius: 32px;
+    background-color: rgba(0,0,0,0.7);
+    padding: 0 15px;
+    bottom: 150px;
+    align-self: center;
+}
+
+.component-toast-message
+{
+    align-self: center;
+    font-size: 14px;;
+    color: white;
+}
+
+.component-toast-show
+{
+    display: flex;
+}
+
+.component-toast-hide
+{
+    display: none;
+}

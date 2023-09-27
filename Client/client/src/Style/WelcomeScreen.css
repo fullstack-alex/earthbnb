@@ -1,0 +1,11 @@
+.component-welcomeScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcomescreen-searchform
+{
+    margin-top: 50px;
+    display: flex;
+}

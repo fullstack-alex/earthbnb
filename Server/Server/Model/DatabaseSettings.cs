@@ -1,4 +1,4 @@
-﻿namespace Model;
+﻿namespace Server.Model;
 
 public class DatabaseSettings
 {

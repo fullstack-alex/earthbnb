@@ -1,6 +1,6 @@
 ﻿namespace Server.Model;
 
-public class Statics
+public static class MongoDbCollectionsStatics
 {
-    
+    public static string USER_PROFILE = "UserProfile";
 }

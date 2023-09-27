@@ -1,0 +1,22 @@
+.component-textfield
+{
+    user-select: none;
+    display: flex;
+}
+
+.component-textfield-element
+{
+    border-radius: 8px; 
+    border: none;
+}
+
+.component-input
+{
+    padding: 8px;
+}
+
+.component-input:active, .component-input:focus
+{
+    outline:none;
+    background-color: rgba(255,255,255,0.7);
+}

@@ -1,0 +1,80 @@
+.component-navmenu
+{
+    background-color: #BB5358;
+    box-shadow: 0px 5px 30px rgba(0,0,0,0.3);
+    display: flex;
+}
+
+.navmenu-logo
+{
+    cursor: pointer;
+}
+
+.component-controls-container
+{
+    margin-left: auto;
+    margin-right: 16px;
+    align-self: center;
+    padding: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.navmenu-button-signup
+{
+    display: flex;
+    flex-direction: row;
+    margin-left: 30px;
+    width: 100px;
+}
+
+.navmenu-login-container
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.navmenu-textfield
+{
+    margin: 2.5px 0;
+}
+
+.navmenu-loginbutton
+{
+    width: 30px;
+    height: 50px;
+    background-image: url("../../public/login-icon.svg");
+    background-position: center;
+    background-size: contain;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    margin-left: 0;
+}
+
+.navmenu-logoutbutton
+{
+    width: 30px;
+    height: 50px;
+    background-image: url("../../public/logout-icon.svg");
+    background-position: center;
+    background-size: contain;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.navmenu-logoutbutton:hover
+{
+    background-image: url("../../public/logout-icon-hover.svg");
+    background-position: center;
+    background-size: contain;
+}
+
+.navmenu-loginbutton:hover
+{
+    background-image: url("../../public/login-icon-hover.svg");
+    background-position: center;
+    background-size: contain;
+}

@@ -1,15 +1,19 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
+using MongoDB.Bson;
 using Server.Model;
 using Server.Services;
+using JwtSecurityTokenHandler = System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler;
 
 namespace Server.Controllers;
 
-[ApiController]
-[Route("[controller]")]
+[ApiController, Route("[controller]")]
 public class UserProfileController : ControllerBase
 {
     private readonly IConfiguration _configuration;
@@ -19,7 +23,83 @@ public class UserProfileController : ControllerBase
         _configuration = configuration;
     }
     
-    // [HttpGet("{email}/{password}")]
+    [HttpPost("login")]
+    public async Task<ActionResult<string?>> Login([FromBody] Credentials credentials, [FromServices] UserProfileService userProfileService)
+    {
+        bool isLoginValid = await userProfileService.GetAsyncByCredentials(credentials) != null;
+        Console.WriteLine(credentials.ToJson());
+
+        if (isLoginValid)
+        {
+            string token = GenerateToken(credentials.username);
+            
+            Response.Headers.Append("Access-Control-Expose-Headers", "Authorization");
+            Response.Headers.Append("Authorization", token);
+
+            return new JsonResult(Ok()); 
+        }
+        
+        Response.Headers.Append("Access-Control-Expose-Headers", "UserMessage");
+        Response.Headers.Append("UserMessage", "Wrong username or password.");
+
+        return StatusCode(401);
+    }
+    
+    [HttpPost("signup")]
+    public async Task<ActionResult<string>> SignUp([FromBody] UserProfile profile, [FromServices] UserProfileService userProfileService)
+    {
+        profile.uid = Guid.NewGuid().ToString();
+        
+        UserProfile? oldUser = await userProfileService.GetAsyncByUsername(profile.username);
+        
+        Console.WriteLine("hello");
+        if (string.IsNullOrEmpty(oldUser?.uid))
+        {   
+            await userProfileService.CreateAsync(profile);
+
+            string token = GenerateToken(profile.username);
+            
+            Response.Headers.Append("Access-Control-Expose-Headers", "Authorization");
+            Response.Headers.Append("Authorization", token);
+            
+            return new JsonResult(Ok()); 
+        }
+        
+        Response.Headers.Append("Access-Control-Expose-Headers", "UserMessage");
+        Response.Headers.Append("UserMessage", $"User with {profile.username} username already exists.");
+
+        return StatusCode(409);
+    }
+
+    private string GenerateToken(string username)
+    {
+        var issuer = _configuration.GetValue<string>("Jwt:Issuer");
+        var audience = _configuration.GetValue<string>("Jwt:Audience");
+        var key = Encoding.ASCII.GetBytes
+            (_configuration.GetValue<string>("Jwt:Key"));
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Subject = new ClaimsIdentity(new[]
+            {
+                new Claim("Id", Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Email, username),
+                new Claim(JwtRegisteredClaimNames.Jti,
+                    Guid.NewGuid().ToString())
+            }),
+            Expires = DateTime.UtcNow.AddMinutes(10),
+            Issuer = issuer,
+            Audience = audience,
+            SigningCredentials = new SigningCredentials
+            (new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha512Signature)
+        };
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        var stringToken = tokenHandler.WriteToken(token);
+
+        return stringToken;
+    }
     // public async Task<ActionResult<Customer?>> Get([FromRoute] string email, string password, [FromServices] CustomerService customerService)
     // {
     //     Console.WriteLine(email + " " + password);
@@ -46,53 +126,4 @@ public class UserProfileController : ControllerBase
     //
     //     return customer;
     // }
-    
-    [HttpPost]
-    public async Task<ActionResult<string>> Post(UserProfile profile, [FromServices] UserProfileService userProfileService)
-    {
-        // customer.uid = Guid.NewGuid().ToString();
-        //
-        // Console.WriteLine(customer.email);
-        // Customer? oldCustomer = await customerService.GetAsyncByEmail(customer.email);
-        //
-        // if (oldCustomer.uid != null)
-        // {   
-        //     return StatusCode(409, $"User with '{customer.email}' email already exists.");
-        // }
-        //
-        // customer = await customerService.CreateAsync(customer);
-        //
-        // return customer;
-        
-        if (profile.username == "alex" && profile.password == "password")
-        {
-            var issuer = _configuration.GetValue<string>("Jwt:Issuer");
-            var audience = _configuration.GetValue<string>("Jwt:Audience");
-            var key = Encoding.ASCII.GetBytes
-                (_configuration.GetValue<string>("Jwt:Key"));
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new[]
-                {
-                    new Claim("Id", Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Sub, profile.username),
-                    new Claim(JwtRegisteredClaimNames.Email, profile.username),
-                    new Claim(JwtRegisteredClaimNames.Jti,
-                        Guid.NewGuid().ToString())
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(10),
-                Issuer = issuer,
-                Audience = audience,
-                SigningCredentials = new SigningCredentials
-                (new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha512Signature)
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var jwtToken = tokenHandler.WriteToken(token);
-            var stringToken = tokenHandler.WriteToken(token);
-            return Ok(stringToken);
-        }
-        return Unauthorized();
-    }
 }

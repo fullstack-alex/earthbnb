@@ -1,8 +1,7 @@
 ﻿using MongoDB.Driver;
 using Microsoft.Extensions.Options;
-using Model;
 using MongoDB.Bson.Serialization.Conventions;
-using SharedLibrary;
+using Server.Model;
 
 namespace Server.Services;
 
