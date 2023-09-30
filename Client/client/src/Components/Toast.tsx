@@ -12,7 +12,7 @@ export default function Toast({className=""}) {
     );
 }
 
-export function openToast(message:string) {
+export function openToast(message:string, duration:number = 2) {
     if(message != "" && message != null)
     {
         console.log("[TOAST] :" + message)
@@ -24,7 +24,7 @@ export function openToast(message:string) {
     
         setTimeout(() => {
             closeToast();
-        }, 2000);
+        }, duration * 1000);
     }
 }
 

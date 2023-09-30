@@ -1,0 +1,102 @@
+.component-adminScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 100%;
+}
+
+.component-admin-container
+{
+    width: 400px;
+    height: 500px;
+    margin-top: 50px;
+    display: flex;
+    border-radius: 32px;
+    box-shadow: 5px 10px 15px rgba(0,0,0,0.3);
+    flex-direction: column;
+    padding: 30px;
+}
+
+.component-users-container
+{
+    border-radius: 32px;
+    align-self: center;
+    min-height: 400px;
+    height: auto;
+    width: 100%;
+    flex-direction: column;
+    padding: 15px;
+    align-items: center;
+    overflow-y: auto;
+    white-space:nowrap;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 16px;
+    background: #f1f1f1;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 16px;
+    background: #BB5358;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b1383ec1;
+  }
+
+.component-export-buttons-container
+{
+    display: flex;
+    padding-top: 15px;
+    margin-top: auto;
+    margin-left: auto;
+}
+
+.component-export-json
+{
+    margin-right: 15px;
+}
+
+.component-export-buttons
+{
+    background-color: #BB5358 !important;
+    color: white !important;
+    border-color: #BB5358 !important;
+    width: 150px;
+}
+
+.component-export-buttons:hover
+{
+    background-color: #b1383ec1 !important;
+    border-color: #b1383ec1 !important;
+}
+
+.component-user
+{
+    border-radius: 12px;
+    height: 50px;
+    margin-top: 5px;
+    background-color: #BB5358 !important;
+    color: white !important;
+    border-color: #BB5358 !important;
+}
+
+.component-user:hover
+{
+    background-color: #b1383ec1 !important;
+    border-color: #b1383ec1 !important;
+}
+
+.component-adminScreen-userpage
+{
+}

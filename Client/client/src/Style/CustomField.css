@@ -20,3 +20,9 @@
     outline:none;
     background-color: rgba(255,255,255,0.7);
 }
+
+.disabled > .component-input
+{
+    background-color: rgba(0, 0, 0, 0.429) !important;
+    pointer-events: none !important;
+}

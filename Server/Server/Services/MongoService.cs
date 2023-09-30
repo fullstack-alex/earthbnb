@@ -7,7 +7,8 @@ namespace Server.Services;
 
 public abstract class MongoService<T> where  T : UniqueClass
 {
-    public readonly IMongoCollection<T> _collection;
+    public IMongoCollection<T> _collection;
+    public IMongoDatabase mongoDatabase;
 
     public MongoService(IOptions<DatabaseSettings> databaseSettings, string collectionName)
     {
@@ -17,7 +18,7 @@ public abstract class MongoService<T> where  T : UniqueClass
         var conventionPack = new ConventionPack { new IgnoreExtraElementsConvention(true) };
         ConventionRegistry.Register("IgnoreExtraElements", conventionPack, type => true);
 
-        var mongoDatabase = mongoClient.GetDatabase(
+        mongoDatabase = mongoClient.GetDatabase(
             databaseSettings.Value.DatabaseName);
 
         _collection = mongoDatabase.GetCollection<T>(

@@ -6,6 +6,11 @@
     position: relative;
 }
 
+.component-app-navmenu
+{
+    z-index: 100;
+}
+
 .component-app-navmenu, .component-app-welcomescreen
 {
     display: flex;
@@ -13,6 +18,24 @@
 
 .component-app-signupscreen 
 {
+    position: absolute;
     display: block;
     width: 100%;
+}
+
+.component-app-signupscreen-container, .component-app-adminscreen-container
+{
+    position: relative;
+}
+
+.component-app-adminscreen-userpage
+{
+    position: absolute;
+    top: 0;
+}
+
+.app-toastmessage
+{
+    position: absolute;
+    bottom: 100px;
 }

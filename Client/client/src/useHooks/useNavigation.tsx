@@ -8,7 +8,8 @@ export default function useNavigation(){
   
     const navigate = (path:any) => {
       setPage(path);
-      routerNavigate(path);
+      console.log(path);
+      routerNavigate(path, {replace:true});
     }
   
     return{

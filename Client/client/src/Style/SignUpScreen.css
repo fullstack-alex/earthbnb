@@ -2,7 +2,7 @@
 {
     display: flex;
     position: absolute;
-    margin:30px auto 0;
+    margin: -30px auto 0;
     justify-content: center;
     align-items: center;
 }
@@ -49,25 +49,22 @@
 .component-signup-image-container
 {
     margin-bottom: 25px;
+    width: 400px;
 }
 
 .signup-image-preview
 {
     margin-right: 15px;;
     background-size: contain;
-    font-size: 14px;
     border-radius: 4px;
-    max-height: 200px;
+    font-size: 14px;
+    height: 120px;
 }
 
 .component-signup-field-image
 {
-    margin: 0 !important;
     margin-left: auto !important;
-    width: auto !important;
-    height: auto !important;
     user-select: none !important;
-    margin: 5px 0;
 }
 
 .component-signup-field-image::file-selector-button

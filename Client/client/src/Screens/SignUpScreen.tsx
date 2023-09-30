@@ -3,9 +3,10 @@ import PrimaryButton from '../Components/PrimaryButton';
 import '../Style/SignUpScreen.css';
 import React, { useState } from "react";
 import useNavigation from '../useHooks/useNavigation';
+import useUser from '../useHooks/useUser';
 import useFetch from '../useHooks/useFetch';
 import useSession from '../useHooks/useSession';
-import { UserProfile } from '../models/UserProfile';
+import { UserProfile, Role } from '../models/UserProfile';
 import { openToast } from '../Components/Toast';
 import jwt_decode from "jwt-decode";
 import { blob } from 'stream/consumers';
@@ -13,6 +14,7 @@ import { getBase64 } from '../utils';
 
 export default function SignUpScreen({className=""}) { 
 
+    const user = useUser();
     const navigation = useNavigation();
     const fetch = useFetch();
     const session = useSession();
@@ -27,8 +29,15 @@ export default function SignUpScreen({className=""}) {
         userProfile.surname = (document.getElementById("signup-surname") as HTMLInputElement).value;
         userProfile.email = (document.getElementById("signup-email") as HTMLInputElement).value;
         userProfile.phone = (document.getElementById("signup-mobile") as HTMLInputElement).value;
-        userProfile.role = '';
-        userProfile.photoUrl = image;
+        
+        var radios = document.getElementsByName("role");
+        for (var radio of radios){
+            if ((radio as HTMLInputElement).checked) {   
+                var role:Role = +radio.id as Role;
+                userProfile.role = role;
+            }
+        }
+        userProfile.photoUrl = "";
         // getBase64(file, (result:string) => {
         //     userProfile.photoUrl = result;
         //     console.log(userProfile.photoUrl);
@@ -38,11 +47,17 @@ export default function SignUpScreen({className=""}) {
         
         if(resp.ok)
         {
+            const formData = new FormData();
+            formData.append("image", file);
+            formData.append("username", userProfile.username);
+
+            const avatarImageResp = await fetch.post('/UserProfile/UploadAvatarImage', formData, false);
+
             session.setToken(resp.headers.get("Authorization"));
         
             const decoded:any = jwt_decode(resp.headers.get("Authorization") as string);
-            // const res = await fetch.post('/user/getUser', {'username': decoded.username});
-            // user.setProfile(res);
+            const res = await fetch.post('/UserProfile/getUser', {'username': decoded.name});
+            user.setProfile(await res.json().then() as UserProfile);
 
             navigation.navigate("/");
         }
@@ -59,6 +74,16 @@ export default function SignUpScreen({className=""}) {
         let allInputs = document.getElementsByClassName("field-required");
         let toastMessage:string = "";
         let isUnfilledField = false;
+        let isRoleSelected = false;
+
+        let userRole = ""
+        var radios = document.getElementsByName("role");
+        for (var radio of radios){
+            if ((radio as HTMLInputElement).checked) {   
+                isRoleSelected = true;
+                userRole = Role[+radio.id];
+            }
+        }
 
         for (let inputItem of allInputs) {
             let inputHtmlItem = inputItem.querySelector("input");
@@ -89,8 +114,39 @@ export default function SignUpScreen({className=""}) {
         {
             toastMessage = "Fill all fields";
         }
-            
-        openToast(toastMessage);
+
+        if((document.getElementById("signup-email") as HTMLInputElement).value != (document.getElementById("signup-emailrepeat") as HTMLInputElement).value)
+        {
+            document.getElementById("signup-email")?.classList.add("field-notfilled");
+            document.getElementById("signup-emailrepeat")?.classList.add("field-notfilled");
+            isValid = false;
+
+            toastMessage = toastMessage + " Emails dont match";
+        }
+        
+        if((document.getElementById("signup-password") as HTMLInputElement).value != (document.getElementById("signup-passwordrepeat") as HTMLInputElement).value)
+        {
+            document.getElementById("signup-password")?.classList.add("field-notfilled");
+            document.getElementById("signup-passwordrepeat")?.classList.add("field-notfilled");
+            isValid = false;
+
+            toastMessage = toastMessage + " Passwords dont match";
+        }
+        
+        if(!isRoleSelected) {
+            isValid = false;
+            toastMessage = toastMessage + " No role selected"
+        }
+
+        if(isValid && userRole == "Host")
+        {
+            openToast("Pending approval for Host role", 5)
+        }
+        else
+        {
+            openToast(toastMessage);
+        }
+
 
         return isValid;
     } 
@@ -132,8 +188,10 @@ export default function SignUpScreen({className=""}) {
                     <CustomField name="Username" label="Username" id="signup-username" className='component-signup-field component-signup-field-username component-signup-fieldwithlabel field-required'/>
                     <CustomField name="Mobile" label="Mobile" id="signup-mobile" type="tel" className='component-signup-field component-signup-field-mobile component-signup-fieldwithlabel field-required'/>
                     <form className='component-signup-role-container'>
-                        <CustomField label='Guest' id="signup-host-role" type="radio" className='component-signup-field-role'/>
-                        <CustomField label='Host' id="signup-guest-role" type="radio" className='component-signup-field-role'/>
+                        <CustomField name="role" label='Guest' id="0" type="radio" className='component-signup-field-role'/>
+                        <CustomField name="role" label='Host' id="1" type="radio" className='component-signup-field-role'/>
+                        {/* <input name="role" id="signup-imahost-rolege" className='component-signup-field-role' type="radio"/>
+                        <input name="role" id="signup-guest-role" className='component-signup-field-role' type="radio"/> */}
                     </form>
                     <div className='component-signup-email-container'>
                         <CustomField name="Email" label='Email' id="signup-email" type="email" className='component-signup-field component-signup-field-email component-signup-fieldwithlabel field-required'/>

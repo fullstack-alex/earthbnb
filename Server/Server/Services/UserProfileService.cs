@@ -1,4 +1,5 @@
-﻿using Server.Model;
+﻿using Microsoft.AspNetCore.Identity;
+using Server.Model;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -8,13 +9,17 @@ public class UserProfileService : MongoService<UserProfile>
 {
     public UserProfileService(IOptions<DatabaseSettings> databaseSettings)
         : base(databaseSettings, MongoDbCollectionsStatics.USER_PROFILE)
-    {}
+    {
+    }
     
+    public async Task<List<UserProfile>> GetAsyncAll() =>
+        await _collection.Find(a=>true).ToListAsync();
     public async Task<UserProfile?> GetAsyncByUsername(string username) =>
         await _collection.Find(x => x.username == username).FirstOrDefaultAsync();
-    
+
     public async Task<UserProfile?> GetAsyncByCredentials(Credentials credentials) =>
-        await _collection.Find(x => x.username == credentials.username && x.password == credentials.password).FirstOrDefaultAsync();
+        await _collection.Find(x => x.username == credentials.username && x.password == credentials.password)
+            .FirstOrDefaultAsync();
     //
     // public async void CreateUserProfile()
     // {

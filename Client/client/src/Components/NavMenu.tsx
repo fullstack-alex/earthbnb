@@ -1,29 +1,25 @@
 import '../Style/NavMenu.css';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from './Logo';
-import SecondaryButton from './SecondaryButton';
 import PrimaryButton from './PrimaryButton';
 import CustomField from './CustomField';
-import { Console } from 'console';
-import HTTP from "../HTTP";
-import { strict } from 'assert';
 import {UserState} from "./App"
 import useNavigation from "../useHooks/useNavigation";
 import useSession from '../useHooks/useSession';
 import useUser from '../useHooks/useUser';
 import { useRef } from 'react';
-import {toObject, getBase64} from '../utils'
 import jwt_decode from "jwt-decode";
 import useFetch from '../useHooks/useFetch';
-import {Credentials} from "../models/credentials";
+import {Credentials} from "../models/Credentials";
 import { openToast } from './Toast';
+import { UserProfile, Role } from '../models/UserProfile';
 
 export default function NavMenu({className="", userState=UserState.NOT_LOGGED_IN, setUserState=()=>{}}) {  
     const session = useSession();
     const navigation = useNavigation();
-    const user = useUser()
     const refProfile = useRef(null);
     const fetch = useFetch();
+    const user = useUser();
 
     const login = async () =>{
         let username = (document.getElementById("username") as HTMLInputElement).value;
@@ -38,10 +34,22 @@ export default function NavMenu({className="", userState=UserState.NOT_LOGGED_IN
             if(resp.ok)
             {
                 session.setToken(resp.headers.get("Authorization"));
-            
+        
                 const decoded:any = jwt_decode(resp.headers.get("Authorization") as string);
-                // const res = await fetch.post('/user/getUser', {'username': decoded.username});
-                // user.setProfile(res);
+                const res = await fetch.post('/UserProfile/getUser', {'username': decoded.name});
+
+                let userProfile:UserProfile = await res.json().then() as UserProfile;
+                
+                user.setProfile(userProfile);
+
+                if(userProfile.role == Role.Admin)
+                {
+                    navigation.navigate("/admin");
+                }
+                else
+                {
+                    navigation.navigate("/");
+                }
             }
             else
             {
@@ -71,7 +79,7 @@ export default function NavMenu({className="", userState=UserState.NOT_LOGGED_IN
 
                 <div className='navmenu-logoutbutton' onClick={()=> {
                         session.deleteToken();
-                        window.location.reload();
+                        navigation.navigate("/")
                     }}/>
             </div>
         );
@@ -95,22 +103,4 @@ export default function NavMenu({className="", userState=UserState.NOT_LOGGED_IN
             </div>
         );
     }
-}
-
-async function Login(onlogin = ()=>{})
-{
-    let username = (document.getElementById("username") as HTMLInputElement).value;
-    let pass = (document.getElementById("password") as HTMLInputElement).value;
-
-    await HTTP.Login(username, pass).then((loginResponse)=>
-    {
-        if(loginResponse != "")
-        {
-            const loggedInUser = sessionStorage.getItem("user");
-            if (!loggedInUser) {
-                sessionStorage.setItem('user', loginResponse as string);
-            }
-            onlogin();
-        }
-    });
 }

@@ -1,0 +1,93 @@
+.component-userpage
+{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    box-sizing: border-box;
+    padding: 25px;
+    display: block;
+}
+
+.component-userpage-backbutton
+{
+    width: 100px;
+    height: 40px;
+    background-color: #BB5358 !important;
+    color:white;
+    border-color: #BB5358 !important;
+    background-image: url("../../public/back-icon.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.component-userpage-backbutton:hover
+{
+    background-color: #b1383ec1 !important;
+    border-color: #b1383ec1 !important;
+}
+
+.component-userpage-container-info
+{
+    background-color: #BB5358;
+    border-radius: 32px;
+    display: flex;
+    width: 100%;
+    margin-top: 25px;
+    padding: 25px;
+    box-sizing: border-box;
+    justify-content: center;
+}
+
+.component-userpage-image
+{
+    background-color: white;
+    max-height: 256px;
+    background-size: contain;
+    border-radius: 4px;
+}
+
+.component-userpage-container-textinfo
+{
+    border-radius: 32px;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    margin: 0 50px;
+}
+
+.userpage-info-field
+{
+    margin: 10px;
+}
+
+.userpage-info-field > label
+{
+    font-size: 25px;
+    margin-right: 40px;
+}
+
+.userpage-info-field > input
+{
+    margin-left: auto;
+    text-align: center;
+    color:gray;
+    font-size: 20px;
+}
+
+.userpage-info-field-approved 
+{
+    display: none;
+}
+
+.userpage-info-approve-button
+{
+    display: none;
+    margin-top: auto;
+    margin-left: 15px;
+}
+
+.enabled
+{
+    display: flex;
+}

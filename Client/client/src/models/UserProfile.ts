@@ -1,3 +1,10 @@
+export enum Role
+{
+    Guest,
+    Host,
+    Admin
+}
+
 export class UserProfile
 {
     username:string = "";
@@ -6,6 +13,7 @@ export class UserProfile
     surname:string = "";
     email:string = "";
     phone:string = "";
-    role:string = "";
-    photoUrl?:string;
+    role:Role = Role.Guest;
+    photoUrl:string = "";
+    isApprovedHost:boolean = false;
 }
